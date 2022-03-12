@@ -1,4 +1,5 @@
 const form = document.getElementById("github-form")
+
 form.addEventListener("submit", (event) => {
     event.preventDefault()
     //event.target[0].value
@@ -7,9 +8,9 @@ form.addEventListener("submit", (event) => {
     .then(response => {
         //console.log("login", response)
         const userList = document.querySelector("#user-list")
-        const reposList = document.getElementById("repos-list")
-        reposList.innerHTML = ""
+        const reposList = document.querySelector("#repos-list")
         userList.innerHTML = ""
+        reposList.innerHTML = ""
         response.items.map(item => {
             const li = document.createElement("li")
             const h2 = document.createElement("h2")
@@ -24,20 +25,21 @@ form.addEventListener("submit", (event) => {
         })
     })
     form.reset()
-});
+})
 
-function showUserRepos(username, e) {
+function showUserRepos(owner, e) {
     const reposList = document.getElementById("repos-list")
     reposList.innerHTML = ""
     e.preventDefault()
-    fetch(`https://api.github.com/search/users/${username}/repos`)
+    fetch(`https://api.github.com/users/${owner}/repos`)
     .then(response => response.json())
     .then(response => response.map(repo => {
         const li = document.createElement("li")
         const h1 = document.createElement("h1")
         h1.textContent = repo.name
         li.append(h1)
-        reposList.appead(li)
+
+        reposList.append(li)
     }))
     
 }
